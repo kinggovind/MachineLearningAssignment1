@@ -261,3 +261,36 @@ for i in range(noofstudents):                              # initiating a for lo
 studentsWeightListWithPrecision = ['%.2f' % elem for elem in studentsweightlist]            # Converting Student weight list to list with 2 decimal places
 print(studentsWeightListWithPrecision)
 
+
+
+#importing required libraries
+
+
+import pandas as pd
+# importing libraries
+from sklearn.model_selection import train_test_split  # Package for splitting the data
+
+datainput = {'first_column': ['1', '2', '3', '6', '6', '7', '10', '11'],
+        'second_column': ['o', 'o', 'x', 'x', 'x', 'o', 'o', 'o'],
+        }
+gt = pd.DataFrame(datainput)
+
+print(gt)
+gt.head(5)
+x = gt.loc[:, ["first_column"]]
+y = gt.loc[:, ["second_column"]]
+x_training, x_testing, y_training, y_testing = train_test_split(x, y, random_state=0, train_size=.75)
+# importing required libraries
+from sklearn.neighbors import KNeighborsClassifier
+
+# using KNN classifier with no of neighbours as 3
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(x_training, y_training)
+y_testing = knn.predict(x_testing)
+# accuracy
+acc_knn = round(knn.score(x_testing, y_testing) * 100, 2)
+# printing for the accuracy
+print("KNN accuracy is:", acc_knn)
+# importing required libraries for the classification report
+from sklearn.metrics import classification_report
+print(classification_report(x_testing, y_testing))
